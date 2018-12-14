@@ -1,25 +1,18 @@
 import React from 'react'
-import PokemonListItem from './PokemonListItem'
+import PokemonList from './PokemonList'
+import ErrorBoundary from './ErrorBoundaries'
 
-const dummyData = [
-  {name: 'Pikachu'},
-  {name: 'Bulbasaur'},
-  {name: 'Charmander'},
-]
-
-function App() {
+function App () {
   return (
     <div>
+      <h1>Pokemon App</h1>
+      <hr/>
       {
-      [...dummyData, {name:"craposaur"}]
-        .filter(pokemon => !pokemon.name.toLowerCase().includes('pika'))
-        .map( ({name}) => {
-        return (
-          <PokemonListItem key={name} className="pokemon-firstclass" component='h1'>
-            {name}
-          </PokemonListItem>
-        )
-      })
+        <ErrorBoundary fallback="Shit happens... error -.-">
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <PokemonList />
+          </React.Suspense>
+        </ErrorBoundary>
       }
     </div>
   )
