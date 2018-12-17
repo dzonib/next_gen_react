@@ -8,18 +8,24 @@ import PokemonListItem from './PokemonListItem'
 let PokemonCollectionResource = createResource(
   // fetch('https://pokeapi.co/api/v2/pokemon/').then(res => res.json())
   async () => {
-    const res = await axios.get('https://pokeapi.co/api/v2/pokemo/')
+    const res = await axios.get('https://pokeapi.co/api/v2/pokemon/')
     return res.data.results
   }
 )
 
-function PokemonList() {
+function PokemonList({onSelect}) {
   return (
     <div>
       { PokemonCollectionResource.read()
-        .map( ({name}) => {
+        .map( ({name, url}) => {
+          const id = url.split('/')[6]
         return (
-          <PokemonListItem key={name} className="pokemon-firstclass" component='h1'>
+          <PokemonListItem 
+            key={id} 
+            className="pokemon-firstclass" 
+            component='li'
+            onClick={() => onSelect(id)}
+            >
             {name}
           </PokemonListItem>
         )
