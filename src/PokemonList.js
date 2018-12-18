@@ -2,8 +2,6 @@ import React from 'react'
 import { unstable_createResource as createResource} from 'react-cache'
 import axios from 'axios'
 
-import PokemonListItem from './PokemonListItem'
-
 
 let PokemonCollectionResource = createResource(
   // fetch('https://pokeapi.co/api/v2/pokemon/').then(res => res.json())
@@ -13,23 +11,11 @@ let PokemonCollectionResource = createResource(
   }
 )
 
-function PokemonList({onSelect}) {
+function PokemonList({renderItem}) {
   return (
     <div>
       { PokemonCollectionResource.read()
-        .map( ({name, url}) => {
-          const id = url.split('/')[6]
-        return (
-          <PokemonListItem 
-            key={id} 
-            className="pokemon-firstclass" 
-            component='li'
-            onClick={() => onSelect(id)}
-            >
-            {name}
-          </PokemonListItem>
-        )
-      })}
+        .map(pokemon => renderItem({id: pokemon.url.split('/')[6], ...pokemon}))}
     </div>
   )
 }  
